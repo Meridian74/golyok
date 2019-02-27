@@ -13,12 +13,12 @@ var step = new Array([TOMBHOSSZ]);
 function setup() {
   createCanvas(SCREEN_W, SCREEN_H);
   for (i = 0; i < TOMBHOSSZ; i++){
-    r[i] = parseInt(random(20,20));
+    r[i] = int(random(20,20));
     x[i] = 0 + random(SCREEN_W - (r[i] / 2));
     y[i] = 0 + random(SCREEN_H - (r[i] / 2));
     dX[i] = random(-SPEED, SPEED);
     dY[i] = random(-SPEED, SPEED);
-    step[i] = parseInt(random(50));
+    step[i] = int(random(50));
   }
 }
 
@@ -36,7 +36,7 @@ function draw() {
         step[i]--;
       }
       else {
-        step[i] = parseInt(random(30,50));
+        step[i] = int(random(30,50));
         dX[i] = random(-SPEED, SPEED);
         dY[i] = random(-SPEED, SPEED);
       }
