@@ -1,63 +1,37 @@
-
-var SCREEN_W = 800;
-var SCREEN_H = 600;
-var TOMBHOSSZ = 100;
-var SPEED = 5;
-var r = new Array([TOMBHOSSZ]);
-var x = new Array([TOMBHOSSZ]);
-var y = new Array([TOMBHOSSZ]);
-var dX = new Array([TOMBHOSSZ]);
-var dY = new Array([TOMBHOSSZ]);
-var step = new Array([TOMBHOSSZ]);
+SCREEN_W = 800;
+SCREEN_H = 600;
+MENNYI = 100;           // a golyók mennyisége
+SPEED = 10;              // a X/Y irányú maximális elmozdulási érték
+ATMERO = 20;            // a golyók átmérője
+var golyok = new Array(MENNYI);
+var ujSebesseg;
 
 function setup() {
-  createCanvas(SCREEN_W, SCREEN_H);
-  for (i = 0; i < TOMBHOSSZ; i++){
-    r[i] = int(random(20,20));
-    x[i] = 0 + random(SCREEN_W - (r[i] / 2));
-    y[i] = 0 + random(SCREEN_H - (r[i] / 2));
-    dX[i] = random(-SPEED, SPEED);
-    dY[i] = random(-SPEED, SPEED);
-    step[i] = int(random(50));
-  }
+   createCanvas(SCREEN_W, SCREEN_H);
+   for (i = 0; i < MENNYI; i++) {
+      golyok[i] = new Golyo(ATMERO);
+   }
 }
 
+
 function draw() {
-  background(50);
-  fill(255);
-  stroke(100);
-  for(j = 0; j < 2; j++){
-    for(i = 0; i < TOMBHOSSZ; i++) {
-      ellipse(x[i], y[i], r[i], r[i]);
-      x[i] = x[i] + dX[i];
-      y[i] = y[i] + dY[i];
-      
-      if (step[i] > 0) {
-        step[i]--;
+   background(50);
+   fill(255);
+   stroke(100);
+   for (i = 0; i < MENNYI; i++) {
+      golyok[i].display();
+      golyok[i].move();
+      golyok[i].checkBorder();
+   }
+   for (i = 0; i < MENNYI - 1; i++) {
+      for (j = 1; j < MENNYI; j++) {
+         tavolsag = dist(golyok[i].x, golyok[i].y, golyok[j].x, golyok[j].y);
+         
+         if (tavolsag <= ATMERO * 2) {
+            ujSebesseg = (golyok[i].sebesseg + golyok[j].sebesseg) / 2;
+            golyok[i].collision(ujSebesseg);
+            golyok[j].collision(ujSebesseg);
+         }
       }
-      else {
-        step[i] = int(random(30,50));
-        dX[i] = random(-SPEED, SPEED);
-        dY[i] = random(-SPEED, SPEED);
-      }
-      
-      if (x[i] < (r[i] / 2)) {
-        x[i] = r[i] / 2;
-        dX[i] = -1 * dX[i];
-      }
-      else if (x[i] > (SCREEN_W - r[i] / 2)) {
-        x[i] = SCREEN_W - r[i] / 2;
-        dX[i] = -1 * dX[i];
-      }
-      
-      if (y[i] < (r[i] / 2)) {
-        y[i] = r[i] / 2;
-        dY[i] = -1 * dY[i];
-      }
-      else if (y[i] > (SCREEN_H - r[i] / 2)) {
-        y[i] = SCREEN_H - r[i] / 2;
-        dY[i] = -1 * dY[i];
-      }
-    }
-  }
+   }
 }
