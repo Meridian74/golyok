@@ -1,7 +1,7 @@
 SCREEN_W = 600;         // képernyő méret
 SCREEN_H = 400;
-MENNYI = 100;             // a golyók mennyisége
-SPEED = 10;              // a X/Y irányú maximális elmozdulási érték
+MENNYI = 50;             // a golyók mennyisége
+SPEED = 5;              // a X/Y irányú maximális elmozdulási érték
 ATMERO = 20;            // a golyók átmérője
 var golyok = new Array(MENNYI);
 var i;
@@ -33,10 +33,9 @@ function draw() {
             // és ha a távolság kisebb, mint a golyó átmérője akkor a két golyó ütközik!
             tavolsag = dist(golyok[i].x, golyok[i].y, golyok[j].x, golyok[j].y);
             if (tavolsag < ATMERO + 2) {
-               tX = golyok[i].dX - golyok[j].dX;
-               tY = golyok[i].dY - golyok[j].dY;
-               
-               if (tX > tY) {
+               tX = abs(golyok[i].dX - golyok[j].dX);
+               tY = abs(golyok[i].dY - golyok[j].dY);
+               if (tX >= tY) {
                   csere = golyok[i].dX;
                   golyok[i].dX = golyok[j].dX;
                   golyok[j].dX = csere;
